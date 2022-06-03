@@ -9,6 +9,7 @@ world.human.usePotion()
 world.saveToFile("test3.txt")
 
 # masz dostępne:
+#     world = World(WorldSize, spawnProtectSize)    WorldSize musi być ustalany w oknie przed rozpoczęciem gry, spawnprot zostaw 2 i es
 #     world.makeTurn()
 #     world.saveToFile("saveFile.txt")
 #     world.loadFromFile("saveFile.txt")
