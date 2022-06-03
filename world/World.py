@@ -142,7 +142,7 @@ class World:
             self.spawnOrganism(4, False)
             self.spawnOrganism(5, False)
 
-    def makeTurn(self):
+    def nextTurn(self):
         self.events.clear()
         for organism in self.organisms:
             if(organism.alive):
