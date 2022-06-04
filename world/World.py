@@ -12,7 +12,7 @@ from world.organisms.plants.species.Grass import Grass
 from world.organisms.plants.species.Guarana import Guarana
 from world.organisms.plants.species.SosnowskyHogweed import SosnowskyHogweed
 from world.organisms.plants.species.SowThistle import SowThistle
-from world.organisms.plants.species.Belladona import Belladona
+from world.organisms.plants.species.Belladona import Belladona  ##from world.organism.plants.species import *
 
 
 class World:
