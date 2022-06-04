@@ -12,19 +12,18 @@ from tkinter import *
 class Frames(object):
     def newFrame(self):
         newwin = Toplevel(root)
+        user_data = self.query.get()
         newwin.title(f'size: {self.query.get()}')
         size=200*self.query.get()
         newwin.geometry(f"{100+int(size)}x{size}")
-        screen_height = newwin.winfo_reqheight()
-        screen_width = newwin.winfo_reqwidth()
-        print(screen_width,screen_height)
 
          
         root.withdraw()  ## hide main menu 
-
         display = Label(newwin, text="world size: " + self.query.get()) #getting parameter via query var
-
         world = World(self.query.get(), 2)
+
+        label = Label(text='sample label')
+        label.grid(row=int(self.query.get())+1,column=0)
 
         class Tile:
             def __init__(self, x,y):
@@ -32,10 +31,22 @@ class Frames(object):
                 self.y = y
             def button_command(self):
                 print(self.x,self.y)
-            
+                # for i in button_list:
+                #     if i == (self.x,self.y):
+                #         this_button=button2[button_list.index(i)]
+                #         print(this_button.text)
+                self.button['text'] = 'x'
+                
+
+
+            global button_list,button2
+            button_list,button2=[],[]
             def create(self):
-                self.button = Button(newwin,command=self.button_command, height=5, width=5)
+                self.button = Button(newwin,text='',command=self.button_command, height=5, width=5)
                 self.button.grid(row=self.x,column=self.y)
+                button_list.append((self.x,self.y))
+                button2.append(self.button)
+                    
 
         
         # tworzenie kafelkow
@@ -44,6 +55,8 @@ class Frames(object):
                 Tile(0,i).create()
             for i in range(int(self.query.get())):
                 Tile(x,i).create()
+        # print(button_list)
+        
 
 
             
