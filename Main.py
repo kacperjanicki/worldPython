@@ -7,114 +7,160 @@ import tkinter as tk
 from tkinter import *
 # from tkinter import simpledialog       tym mozna miec dialog window jak w javie
 #                                        ale nie wiem jak przez query to wyslac
-                                    # data=simpledialog.askstring(title='input',prompt='world size')
-                                    # print(data)
+# data=simpledialog.askstring(title='input',prompt='world size')
+# print(data)
+
 
 class Frames(object):
-    
+
     def newFrame(self):
         newwin = Toplevel(root)
         user_data = self.query.get()
         newwin.title(f'size: {self.query.get()}')
-        size=200*self.query.get()
+        size = 200*self.query.get()
         newwin.geometry(f"{100+int(size)}x{size}")
-        
+        world = World(int(self.query.get()), 2)
+
         # navigate to choose organism tooltip window
         def tooltip_win(pos):
             print(pos)
-            self.chooseOrganism()
-            
-        root.withdraw()  ## hide main menu 
-        display = Label(newwin, text="world size: " + self.query.get()) #getting parameter via query var
+            self.chooseOrganism(pos[0], pos[1], world)
+
+        root.withdraw()  # hide main menu
+        # getting parameter via query var
+        display = Label(newwin, text="world size: " + self.query.get())
         world = World(self.query.get(), 2)
         label = Label(text='sample label')
-        label.grid(row=int(self.query.get())+1,column=0)
-        
-        position_log=[]
+        label.grid(row=int(self.query.get())+1, column=0)
+
+        position_log = []
+
         class Tile:
-            def __init__(self, x,y):
+            def __init__(self, x, y):
                 self.x = x
                 self.y = y
+
             def button_command(self):
                 self.button['text'] = 'x'
-                if position_log.count((self.x,self.y)) < 1:      ##allows only one tooltip at the time (per tile)
-                    tooltip_win((self.x,self.y))
-                    position_log.append((self.x,self.y))
-                
-                print(position_log.count((self.x,self.y)))
-                    
+                # allows only one tooltip at the time (per tile)
+                if position_log.count((self.x, self.y)) < 1:
+                    tooltip_win((self.x, self.y))
+                    position_log.append((self.x, self.y))
 
-                    
+                print(position_log.count((self.x, self.y)))
+
             def create(self):
-                self.button = Button(newwin,text='',command=self.button_command, height=5, width=5)
-                self.button.grid(row=self.x,column=self.y)
-        
+                self.button = Button(
+                    newwin, text='', command=self.button_command, height=1, width=3)
+                self.button.grid(row=self.x, column=self.y)
+
         global event_log
-        event_log = []   
+        event_log = []
 
         # tworzenie kafelkow
         for x in range(int(self.query.get())):
             for i in range(int(self.query.get())):
-                Tile(0,i).create()
+                Tile(0, i).create()
             for i in range(int(self.query.get())):
-                Tile(x,i).create()
+                Tile(x, i).create()
 
-    def chooseOrganism(self):
-        choose=Toplevel(root)
+    def chooseOrganism(self, x, y, world):
+        choose = Toplevel(root)
         choose.geometry('200x400')
         choose.title('Choose organism:')
-        nazwy = ['Human','Antelope','Fox','Sheep','Turtle','Wolf','Belladona','Grass','Guarana','Sosnowsky Weed','Sow Thistle']
+        nazwy = ['Human', 'Antelope', 'Fox', 'Sheep', 'Turtle', 'Wolf',
+                 'Belladona', 'Grass', 'Guarana', 'Sosnowsky Weed', 'Sow Thistle', 'Cyber Sheep']
 
         def funkcja(i):
-            wiadomosc = f"{i} has been added."
-            print(wiadomosc)
-            event_log.append(wiadomosc)
-            print(event_log)
+            if i == "Humman":
+                world.addHuman(x, y)
+            elif i == "Antelope":
+                world.addAntelope(x, y)
+            elif i == "Fox":
+                world.addFox(x, y)
+            elif i == "Sheep":
+                world.addSheep(x, y)
+            elif i == "Turtle":
+                world.addTurtle(x, y)
+            elif i == "Wolf":
+                world.addWolf(x, y)
+            elif i == "Belladona":
+                world.addBelladona(x, y)
+            elif i == "Grass":
+                world.addGrass(x, y)
+            elif i == "Guarana":
+                world.addGuarana(x, y)
+            elif i == "Sosnowsky Weed":
+                world.addSosnowskyWeed(x, y)
+            elif i == "Sow Thistle":
+                world.addSowThistle(x, y)
+            elif i == "Cyber Sheep":
+                world.addCyberSheep(x, y)            
+            choose.withdraw()
 
         # nie da sie tego zrobic for loopem (chyba)
-        button1= Button(choose,text=nazwy[0],command=lambda: funkcja(nazwy[0]))
-        button1.grid(row=0,column=0)
-        button2= Button(choose,text=nazwy[1],command=lambda: funkcja(nazwy[1]))
-        button2.grid(row=1,column=0)
-        button3= Button(choose,text=nazwy[2],command=lambda: funkcja(nazwy[2]))
-        button3.grid(row=3,column=0)
-        button4= Button(choose,text=nazwy[3],command=lambda: funkcja(nazwy[3]))
-        button4.grid(row=4,column=0)
-        button5= Button(choose,text=nazwy[4],command=lambda: funkcja(nazwy[4]))
-        button5.grid(row=5,column=0)
-        button6= Button(choose,text=nazwy[5],command=lambda: funkcja(nazwy[5]))
-        button6.grid(row=6,column=0)
-        button7= Button(choose,text=nazwy[6],command=lambda: funkcja(nazwy[6]))
-        button7.grid(row=7,column=0)
-        button8= Button(choose,text=nazwy[7],command=lambda: funkcja(nazwy[7]))
-        button8.grid(row=8,column=0)
-        button9= Button(choose,text=nazwy[8],command=lambda: funkcja(nazwy[9]))
-        button9.grid(row=9,column=0)
-        button10= Button(choose,text=nazwy[9],command=lambda: funkcja(nazwy[9]))
-        button10.grid(row=0,column=0)
-        button11= Button(choose,text=nazwy[10],command=lambda: funkcja(nazwy[10]))
-        button11.grid(row=10,column=0)
+        button1 = Button(
+            choose, text=nazwy[0], command=lambda: funkcja(nazwy[0]))
+        button1.grid(row=0, column=0)
+        button2 = Button(
+            choose, text=nazwy[1], command=lambda: funkcja(nazwy[1]))
+        button2.grid(row=1, column=0)
+        button3 = Button(
+            choose, text=nazwy[2], command=lambda: funkcja(nazwy[2]))
+        button3.grid(row=3, column=0)
+        button4 = Button(
+            choose, text=nazwy[3], command=lambda: funkcja(nazwy[3]))
+        button4.grid(row=4, column=0)
+        button5 = Button(
+            choose, text=nazwy[4], command=lambda: funkcja(nazwy[4]))
+        button5.grid(row=5, column=0)
+        button6 = Button(
+            choose, text=nazwy[5], command=lambda: funkcja(nazwy[5]))
+        button6.grid(row=6, column=0)
+        button7 = Button(
+            choose, text=nazwy[6], command=lambda: funkcja(nazwy[6]))
+        button7.grid(row=7, column=0)
+        button8 = Button(
+            choose, text=nazwy[7], command=lambda: funkcja(nazwy[7]))
+        button8.grid(row=8, column=0)
+        button9 = Button(
+            choose, text=nazwy[8], command=lambda: funkcja(nazwy[9]))
+        button9.grid(row=9, column=0)
+        button10 = Button(
+            choose, text=nazwy[9], command=lambda: funkcja(nazwy[9]))
+        button10.grid(row=10, column=0)
+        button11 = Button(
+            choose, text=nazwy[10], command=lambda: funkcja(nazwy[10]))
+        button11.grid(row=11, column=0)
+        button12 = Button(
+            choose, text=nazwy[11], command=lambda: funkcja(nazwy[11]))
+        button12.grid(row=12, column=0)
 
-    def mainFrame(self,root):
-        self.query = StringVar() #passing parameter via query var
+    def mainFrame(self, root):
+        self.query = StringVar()  # passing parameter via query var
+
         def click():
             if len(self.query.get()) == 0:
                 print('error')
             else:
                 self.newFrame()
         root.title('Main win')
-        root.geometry("300x300") 
+        root.geometry("300x300")
         root.resizable(0, 0)
-        
-        label = Label(root,text='Give world size:')
-        label.grid(row=0,column=0)
-        
-        button1 =Button(root, text ="New game", command =click)
-        button1.grid(row=1,column=1)
+
+        label = Label(root, text='WorldInitializer')
+        label.grid(row=0, column=0)
+
+        button1 = Button(root, text="New game", command=click)
+        button1.grid(row=1, column=1)
 
         entry1 = Entry(root, textvariable=self.query)
-        entry1.grid(row=1,column=0)
-        
+        entry1.grid(row=1, column=0)
+
+        button2 = Button(root, text="Restore game", command=click)
+        button2.grid(row=2, column=1)
+
+
 if __name__ == "__main__":
     root = Tk()
     app = Frames()
@@ -126,8 +172,6 @@ if __name__ == "__main__":
 # world.addHuman(5, 5)
 # world.human.usePotion()
 # world.saveToFile("test3.txt")
-
-
 
 
 # masz dostępne:
