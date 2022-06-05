@@ -5,10 +5,6 @@ import tkinter
 from world.World import World
 import tkinter as tk
 from tkinter import *
-# from tkinter import simpledialog       tym mozna miec dialog window jak w javie
-#                                        ale nie wiem jak przez query to wyslac
-# data=simpledialog.askstring(title='input',prompt='world size')
-# print(data)
 
 
 class Frames(object):
@@ -34,15 +30,9 @@ class Frames(object):
 
         # navigate to choose organism tooltip window
         def tooltip_win(pos):
-            print(pos)
-            self.chooseOrganism(pos[0], pos[1], world)
+            chooseOrganism(pos[0], pos[1], world)
 
         root.withdraw()  # hide main menu
-        # getting parameter via query var
-        display = Label(newwin, text="world size: " + self.query.get())
-        label = Label(text='sample label')
-        label.grid(row=worldSize+1, column=0)
-
         position_log = []
 
         class Tile:
@@ -62,72 +52,50 @@ class Frames(object):
                 self.button = Button(newwin, text='', command=self.button_command, height=1, width=3)
                 self.button.grid(row=self.x, column=self.y)
 
-        # tworzenie kafelkow
+        # create tiles
         for i in range(worldSize):
             for j in range(worldSize):
                 tileMatrix[i].append(Tile(i, j))
                 tileMatrix[i][j].create()
         updateTiles()
 
-    def chooseOrganism(self, x, y, world):
-        choose = Toplevel(root)
-        choose.geometry('200x400')
-        choose.title('Choose organism:')
-        nazwy = ['Human', 'Antelope', 'Fox', 'Sheep', 'Turtle', 'Wolf',
-                 'Belladona', 'Grass', 'Guarana', 'Sosnowsky Weed', 'Sow Thistle', 'Cyber Sheep']
+        def chooseOrganism(x, y, world):
+            choose = Toplevel(root)
+            choose.geometry('200x400')
+            choose.title('Choose organism:')
+            names = ['Human', 'Antelope', 'Fox', 'Sheep', 'Turtle', 'Wolf',
+                    'Belladona', 'Grass', 'Guarana', 'Sosnowsky Weed', 'Sow Thistle', 'Cyber Sheep']
+            for i in range(len(names)):
+                button = Button(choose, text=names[i], command=lambda i=names[i]: byName(i))
+                button.grid(row=i, column=0)
 
-        def funkcja(i):
-            if i == "Humman":
-                world.addHuman(x, y)
-            elif i == "Antelope":
-                world.addAntelope(x, y)
-            elif i == "Fox":
-                world.addFox(x, y)
-            elif i == "Sheep":
-                world.addSheep(x, y)
-            elif i == "Turtle":
-                world.addTurtle(x, y)
-            elif i == "Wolf":
-                world.addWolf(x, y)
-            elif i == "Belladona":
-                world.addBelladona(x, y)
-            elif i == "Grass":
-                world.addGrass(x, y)
-            elif i == "Guarana":
-                world.addGuarana(x, y)
-            elif i == "Sosnowsky Weed":
-                world.addSosnowskyWeed(x, y)
-            elif i == "Sow Thistle":
-                world.addSowThistle(x, y)
-            elif i == "Cyber Sheep":
-                world.addCyberSheep(x, y)            
-            choose.withdraw()
-
-        # nie da sie tego zrobic for loopem (chyba)
-        button1 = Button(choose, text=nazwy[0], command=lambda: funkcja(nazwy[0]))
-        button1.grid(row=0, column=0)
-        button2 = Button(choose, text=nazwy[1], command=lambda: funkcja(nazwy[1]))
-        button2.grid(row=1, column=0)
-        button3 = Button(choose, text=nazwy[2], command=lambda: funkcja(nazwy[2]))
-        button3.grid(row=3, column=0)
-        button4 = Button(choose, text=nazwy[3], command=lambda: funkcja(nazwy[3]))
-        button4.grid(row=4, column=0)
-        button5 = Button(choose, text=nazwy[4], command=lambda: funkcja(nazwy[4]))
-        button5.grid(row=5, column=0)
-        button6 = Button(choose, text=nazwy[5], command=lambda: funkcja(nazwy[5]))
-        button6.grid(row=6, column=0)
-        button7 = Button(choose, text=nazwy[6], command=lambda: funkcja(nazwy[6]))
-        button7.grid(row=7, column=0)
-        button8 = Button(choose, text=nazwy[7], command=lambda: funkcja(nazwy[7]))
-        button8.grid(row=8, column=0)
-        button9 = Button(choose, text=nazwy[8], command=lambda: funkcja(nazwy[9]))
-        button9.grid(row=9, column=0)
-        button10 = Button(choose, text=nazwy[9], command=lambda: funkcja(nazwy[9]))
-        button10.grid(row=10, column=0)
-        button11 = Button(choose, text=nazwy[10], command=lambda: funkcja(nazwy[10]))
-        button11.grid(row=11, column=0)
-        button12 = Button(choose, text=nazwy[11], command=lambda: funkcja(nazwy[11]))
-        button12.grid(row=12, column=0)
+            def byName(i):
+                if i == "Humman":
+                    world.addHuman(x, y)
+                elif i == "Antelope":
+                    world.addAntelope(x, y)
+                elif i == "Fox":
+                    world.addFox(x, y)
+                elif i == "Sheep":
+                    world.addSheep(x, y)
+                elif i == "Turtle":
+                    world.addTurtle(x, y)
+                elif i == "Wolf":
+                    world.addWolf(x, y)
+                elif i == "Belladona":
+                    world.addBelladona(x, y)
+                elif i == "Grass":
+                    world.addGrass(x, y)
+                elif i == "Guarana":
+                    world.addGuarana(x, y)
+                elif i == "Sosnowsky Weed":
+                    world.addSosnowskyHogweed(x, y)
+                elif i == "Sow Thistle":
+                    world.addSowThistle(x, y)
+                elif i == "Cyber Sheep":
+                    world.addCyberSheep(x, y)            
+                choose.destroy()
+                updateTiles()
 
     def mainFrame(self, root):
         self.query = StringVar()  # passing parameter via query var
@@ -137,6 +105,7 @@ class Frames(object):
                 print('error')
             else:
                 self.newFrame()
+                
         root.title('Main win')
         root.geometry("300x300")
         root.resizable(0, 0)

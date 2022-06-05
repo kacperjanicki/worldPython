@@ -62,8 +62,7 @@ class World:
                         if(self.isFree(self.human.getx() - x, self.human.gety() - y)):
                             if(self.human.getx() - x > 0 and self.human.gety() - y > 0):
                                 if(self.human.getx() - x < self.size and self.human.gety() - y < self.size):
-                                    self.addOrganism(
-                                        1, False, self.human.getx() - x, self.human.gety() - y)
+                                    self.addOrganism(1, False, self.human.getx() - x, self.human.gety() - y)
             elif(id == 1):
                 newOrganism = Wolf(self, x, y)
             elif(id == 2):
