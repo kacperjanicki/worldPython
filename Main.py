@@ -41,7 +41,6 @@ class Frames(object):
                 self.y = y
 
             def button_command(self):
-                self.button['text'] = 'x'
                 # allows only one tooltip at the time (per tile)
                 if position_log.count((self.x, self.y)) < 1:
                     tooltip_win((self.x, self.y))
