@@ -23,6 +23,16 @@ class World:
         self.human = None
         self.spawnProtectSize = spawnProtectSize
 
+    def getBoard(self):
+        matrix = [[0]*self.size for i in range(self.size)]
+        for organism in self.organisms:
+            if(organism.isAlive()):
+                matrix[organism.getx()][organism.gety()] = organism.draw()
+        return matrix
+
+    def getEvents(self):
+        return self.events
+
     def isFree(self, x, y):
         if(x < 0 or y < 0 or x >= self.size or y >= self.size):
             return False
