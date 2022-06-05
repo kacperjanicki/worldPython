@@ -15,11 +15,22 @@ class Frames(object):
 
     def newFrame(self):
         newwin = Toplevel(root)
-        user_data = self.query.get()
-        newwin.title(f'size: {self.query.get()}')
+        worldSize = int(self.query.get())
+        newwin.title(f'size: {worldSize}')
         size = 200*self.query.get()
         newwin.geometry(f"{100+int(size)}x{size}")
-        world = World(int(self.query.get()), 2)
+        world = World(worldSize, 2)
+        world.populate()
+        tileMatrix = [[]*worldSize for i in range(worldSize)]
+
+        def updateTiles():
+            board = world.getBoard()
+            for i in range(worldSize):
+                for j in range(worldSize):
+                    if board[i][j] != 0:
+                        tileMatrix[i][j].button['text']=board[i][j]
+                    else:
+                        tileMatrix[i][j].button['text']=''
 
         # navigate to choose organism tooltip window
         def tooltip_win(pos):
@@ -29,9 +40,8 @@ class Frames(object):
         root.withdraw()  # hide main menu
         # getting parameter via query var
         display = Label(newwin, text="world size: " + self.query.get())
-        world = World(self.query.get(), 2)
         label = Label(text='sample label')
-        label.grid(row=int(self.query.get())+1, column=0)
+        label.grid(row=worldSize+1, column=0)
 
         position_log = []
 
@@ -49,19 +59,15 @@ class Frames(object):
                 print(position_log.count((self.x, self.y)))
 
             def create(self):
-                self.button = Button(
-                    newwin, text='', command=self.button_command, height=1, width=3)
+                self.button = Button(newwin, text='', command=self.button_command, height=1, width=3)
                 self.button.grid(row=self.x, column=self.y)
 
-        global event_log
-        event_log = []
-
         # tworzenie kafelkow
-        for x in range(int(self.query.get())):
-            for i in range(int(self.query.get())):
-                Tile(0, i).create()
-            for i in range(int(self.query.get())):
-                Tile(x, i).create()
+        for i in range(worldSize):
+            for j in range(worldSize):
+                tileMatrix[i].append(Tile(i, j))
+                tileMatrix[i][j].create()
+        updateTiles()
 
     def chooseOrganism(self, x, y, world):
         choose = Toplevel(root)
@@ -98,41 +104,29 @@ class Frames(object):
             choose.withdraw()
 
         # nie da sie tego zrobic for loopem (chyba)
-        button1 = Button(
-            choose, text=nazwy[0], command=lambda: funkcja(nazwy[0]))
+        button1 = Button(choose, text=nazwy[0], command=lambda: funkcja(nazwy[0]))
         button1.grid(row=0, column=0)
-        button2 = Button(
-            choose, text=nazwy[1], command=lambda: funkcja(nazwy[1]))
+        button2 = Button(choose, text=nazwy[1], command=lambda: funkcja(nazwy[1]))
         button2.grid(row=1, column=0)
-        button3 = Button(
-            choose, text=nazwy[2], command=lambda: funkcja(nazwy[2]))
+        button3 = Button(choose, text=nazwy[2], command=lambda: funkcja(nazwy[2]))
         button3.grid(row=3, column=0)
-        button4 = Button(
-            choose, text=nazwy[3], command=lambda: funkcja(nazwy[3]))
+        button4 = Button(choose, text=nazwy[3], command=lambda: funkcja(nazwy[3]))
         button4.grid(row=4, column=0)
-        button5 = Button(
-            choose, text=nazwy[4], command=lambda: funkcja(nazwy[4]))
+        button5 = Button(choose, text=nazwy[4], command=lambda: funkcja(nazwy[4]))
         button5.grid(row=5, column=0)
-        button6 = Button(
-            choose, text=nazwy[5], command=lambda: funkcja(nazwy[5]))
+        button6 = Button(choose, text=nazwy[5], command=lambda: funkcja(nazwy[5]))
         button6.grid(row=6, column=0)
-        button7 = Button(
-            choose, text=nazwy[6], command=lambda: funkcja(nazwy[6]))
+        button7 = Button(choose, text=nazwy[6], command=lambda: funkcja(nazwy[6]))
         button7.grid(row=7, column=0)
-        button8 = Button(
-            choose, text=nazwy[7], command=lambda: funkcja(nazwy[7]))
+        button8 = Button(choose, text=nazwy[7], command=lambda: funkcja(nazwy[7]))
         button8.grid(row=8, column=0)
-        button9 = Button(
-            choose, text=nazwy[8], command=lambda: funkcja(nazwy[9]))
+        button9 = Button(choose, text=nazwy[8], command=lambda: funkcja(nazwy[9]))
         button9.grid(row=9, column=0)
-        button10 = Button(
-            choose, text=nazwy[9], command=lambda: funkcja(nazwy[9]))
+        button10 = Button(choose, text=nazwy[9], command=lambda: funkcja(nazwy[9]))
         button10.grid(row=10, column=0)
-        button11 = Button(
-            choose, text=nazwy[10], command=lambda: funkcja(nazwy[10]))
+        button11 = Button(choose, text=nazwy[10], command=lambda: funkcja(nazwy[10]))
         button11.grid(row=11, column=0)
-        button12 = Button(
-            choose, text=nazwy[11], command=lambda: funkcja(nazwy[11]))
+        button12 = Button(choose, text=nazwy[11], command=lambda: funkcja(nazwy[11]))
         button12.grid(row=12, column=0)
 
     def mainFrame(self, root):
