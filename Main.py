@@ -8,7 +8,7 @@ from tkinter import *
 
 
 class Frames(object):
-
+    
     def newFrame(self):
         newwin = Toplevel(root)
         worldSize = int(self.query.get())
